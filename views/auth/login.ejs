@@ -48,6 +48,7 @@
       .cover-container {
         max-width: 42em;
       }
+
     </style>
   </head>
 
@@ -57,20 +58,49 @@
 
       <main class="px-3">
         <h1>Log in</h1>
-        <form style="max-width: 22em;" class="text-start mx-auto mt-5">
-          <div class="mb-3 ">
-            <label for="exampleInputEmail1" class="form-label ">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <form
+          style="max-width: 22em"
+          class="text-start mx-auto mt-5 mira_231115_101855_484"
+          id="loginForm"
+        >
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label"
+              >Email address</label
+            >
+            <input
+              type="email"
+              class="form-control mira_231114_115937_149"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+              name="email"
+            />
+            <label id="emailError"></label>
           </div>
           <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1">
+            <label for="exampleInputPassword1" class="form-label"
+              >Password</label
+            >
+            <input
+              type="text"
+              class="form-control mira_231114_115947_830"
+              id="exampleInputPassword1"
+              name="password"
+            />
+            <label id="passwordError"></label>
           </div>
           <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            <input
+              type="checkbox"
+              class="form-check-input mira_231114_115957_310"
+              id="exampleCheck1"
+            />
+            <label class="form-check-label" for="exampleCheck1"
+              >Check me out</label
+            >
           </div>
-          <button type="submit" class="btn btn-primary">Log in</button>
+          <button type="submit" class="btn btn-primary mira_231119_145721_610">
+            Log in
+          </button>
         </form>
       </main>
 
@@ -78,6 +108,38 @@
         <p>Designed and developed by Youssef Sedkey</p>
       </footer>
     </div>
+    <script>
+      loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        emailError.textContent = "";
+        passwordError.textContent = "";
+
+        const res = await fetch("/login", {
+          method: "POST",
+          body: JSON.stringify({
+            email: exampleInputEmail1.value,
+            password: exampleInputPassword1.value,
+          }),
+          headers: { "Content-Type": "application/json" },
+        });
+
+        const data = await res.json();
+
+        if (data.notFoundEmail) {
+          emailError.textContent = data.notFoundEmail;
+        }
+
+        if (data.id) {
+          location.assign("/home");
+        }
+
+        if (data.passwordError) {
+          console.log(data);
+          passwordError.textContent = data.passwordError;
+        }
+      });
+    </script>
+
     <script src="./js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

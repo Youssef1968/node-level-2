@@ -48,6 +48,8 @@
       .cover-container {
         max-width: 42em;
       }
+
+
     </style>
   </head>
 
@@ -55,18 +57,24 @@
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
       <%- include('./header.ejs',{currentPage:"signup"}) %>
 
-      <main class="px-3">
-        <h1>Sign Up</h1>
-        <form style="max-width: 22em" class="text-start mx-auto mt-5">
+      <main class="px-3 mira_231114_120536_134">
+        <h1 class="mira_231114_120519_590">Sign Up</h1>
+        <form
+          id="signupForm"
+          action="/signup"
+          method="post"
+          style="max-width: 22em"
+          class="text-start mx-auto mt-5 mira_231114_120458_926"
+        >
           <div class="mb-3">
             <label for="exampleInputUsername" class="form-label"
               >User name</label
             >
             <input
               type="text"
-              class="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
+              class="form-control mira_231114_115829_285"
+              id="exampleInputUsername"
+              name="username"
             />
           </div>
           <div class="mb-3">
@@ -74,21 +82,24 @@
               >Email address</label
             >
             <input
-              type="email"
-              class="form-control"
+              type="text"
+              class="form-control mira_231114_115846_941"
               id="exampleInputEmail1"
-              aria-describedby="emailHelp"
+              name="email"
             />
+            <label id="emailError"></label>
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label"
               >Password</label
             >
             <input
-              type="password"
-              class="form-control"
+              type="text"
+              class="form-control mira_231114_115914_005"
               id="exampleInputPassword1"
+              name="password"
             />
+            <label id="passwordError"></label>
           </div>
           <div class="mb-3 form-check">
             <input
@@ -108,6 +119,45 @@
         <p>Designed and developed by Youssef Sedkey</p>
       </footer>
     </div>
+
+    <script>
+      signupForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const res = await fetch("/signup", {
+          method: "POST",
+          body: JSON.stringify({
+            username:exampleInputUsername.value,
+            email: exampleInputEmail1.value,
+            password: exampleInputPassword1.value,
+          }),
+          headers: { "Content-Type": "application/json" },
+        });
+
+        const data = await res.json();
+        const myArr = data.arrValidationError;
+        emailError.textContent = "";
+        passwordError.textContent = "";
+        if (myArr) {
+          console.log(myArr);
+
+          myArr.forEach((item) => {
+            document.getElementById(item.path + "Error").textContent = item.msg;
+          });
+        }
+
+        if (data.existEmail) {
+          console.log(data.existEmail);
+          emailError.textContent = "Email already exist, Try to login";
+        }
+        
+        if (data.id) {
+          console.log(data.id);
+          location.assign("/home");
+        }
+      });
+    </script>
+
     <script src="./js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

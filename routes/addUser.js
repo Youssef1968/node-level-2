@@ -5,8 +5,10 @@ const User = require("../models/customerSchema");
 var moment = require("moment");
 const userController = require("../controllers/userController");
 
-router.get("", userController.user_add_get);
+var {requireAuth} = require("../middleware/middleware");
 
-router.post("", userController.user_post);
+router.get("", requireAuth, userController.user_add_get);
+
+router.post("",requireAuth, userController.user_post);
 
 module.exports = router;

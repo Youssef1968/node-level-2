@@ -9,58 +9,44 @@ model.findByIdAndDelete("")==>delete request
 node_modules.deleteOne({_id:req.params.id})==>delete request
 
 
+Result {
+  formatter: [Function: formatter],
+  errors: [
+    {
+      type: 'field',
+      value: 'vvv',
+      msg: 'Please provide a valid email',
+      path: 'email',
+      location: 'body'
+    },
+    {
+      type: 'field',
+      value: '222',
+      msg: 'Password must be at least 8 characters with 1 upper case letter and 1 number',
+      path: 'password',
+      location: 'body'
+    }
+  ]
+}
+$2b$10$M46BTvkKC4OlwXgVYhjBs.
 
-[
-  {
-    _id: new ObjectId('654bbcd5300b44a2d461f36a'),
-    fireName: 'Youssef',
-    lastName: 'Sedkey',
-    email: 'youssefsedkey2000@gmail.com',
-    phoneNumber: '01222555555',
-    age: 50,
-    country: 'Angola',
-    gender: 'Male',
-    createdAt: 2023-11-08T16:52:37.204Z,
-    updatedAt: 2023-11-08T16:52:37.204Z,
-    __v: 0
-  },
-  {
-    _id: new ObjectId('654bc5d286a9d88ee3f53be6'),
-    fireName: 'Nawal',
-    lastName: 'Sedkey',
-    email: 'nawal@gmail.com',
-    phoneNumber: '0120369587',
-    age: 43,
-    country: 'Armenia',
-    gender: 'Female',
-    createdAt: 2023-11-08T17:30:58.280Z,
-    updatedAt: 2023-11-08T17:30:58.280Z,
-    __v: 0
-  },
-  {
-    _id: new ObjectId('654cbdb5a037332f76019d6a'),
-    fireName: 'Barakat',
-    lastName: 'Marzouq',
-    email: 'barakat@gmail.com',
-    phoneNumber: '01278549658',
-    age: 56,
-    country: 'Andorra',
-    gender: 'Male',
-    createdAt: 2023-11-09T11:08:37.022Z,
-    updatedAt: 2023-11-09T14:02:29.144Z,
-    __v: 0
-  },
-  {
-    _id: new ObjectId('654cbf85f55d481b2c1ebead'),
-    fireName: 'soso',
-    lastName: 'Hesham',
-    email: 'soso@yaho.com',
-    phoneNumber: '011111111111111111',
-    age: 30,
-    country: 'Aruba',
-    gender: 'Female',
-    createdAt: 2023-11-09T11:16:21.912Z,
-    updatedAt: 2023-11-09T12:35:39.049Z,
-    __v: 0
-  }
-]
+====================================================================================
+        if (data.arrValidationError) {
+          console.log(data.arrValidationError);
+
+          if (data.arrValidationError.length == 2) {
+            emailError.innerText = data.arrValidationError[0].msg;
+            passwordError.innerText = data.arrValidationError[1].msg;
+          }
+
+          if (data.arrValidationError.length == 1) {
+            if (data.arrValidationError[0].path == "email") {
+              emailError.innerText = data.arrValidationError[0].msg;
+            } else {
+              passwordError.innerText = data.arrValidationError[0].msg;
+            }
+          }
+        }
+================================================================
+
+

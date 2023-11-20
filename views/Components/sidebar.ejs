@@ -38,7 +38,7 @@
 
 
 
-      <strong class="sidebar-text mira_231112_145048_532">Ali Hassan</strong>
+      <strong class="sidebar-text mira_231112_145048_532"><%= user.username %></strong>
     </a>
     <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
       <li><a class="dropdown-item mira_231112_144612_589" href="#">New project...</a></li>
@@ -47,26 +47,10 @@
       <li>
         <hr class="dropdown-divider" />
       </li>
-      <li><a class="dropdown-item mira_231112_144644_893" href="#">Sign out</a></li>
+      <li><a class="dropdown-item mira_231112_144644_893" href="/signout">Sign out</a></li>
     </ul>
   </div>
 </div>
 <div class="b-example-divider b-example-vr"></div>
 
-<script>
-  document.onkeyup = function (e) {
-    if (e.ctrlKey && e.which == 66) {
-      var date = new Date();
-      var dateStr =
-        date.getFullYear().toString().substr(2) +
-        (date.getMonth() + 1).toString().padStart(2, '0') +
-        date.getDate().toString().padStart(2, '0') +
-        "_" +
-        (date.getHours() - 1).toString().padStart(2, '0') +
-        date.getMinutes().toString().padStart(2, '0') +
-        date.getSeconds().toString().padStart(2, '0') + "_" +
-        date.getMilliseconds().toString().padStart(3, '0')
-      navigator.clipboard.writeText(`mira_${dateStr}`);
-    }
-  };
-</script>
+<%- include('../../getid.ejs') %>

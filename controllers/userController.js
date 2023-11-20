@@ -1,10 +1,14 @@
 //Lolo
 // const User = require("../models/customerSchema");
 const User = require("../models/customerSchema");
+const AuthUser = require("../models/authUser");
+const bcrypt = require("bcrypt");
+var jwt = require("jsonwebtoken");
+const { check, validationResult } = require("express-validator");
+
 var moment = require("moment");
 
 const user_index_get = (req, res) => {
-  console.log("-------------------AllData--------------------");
   //result array of objects
   User.find()
     .then((result) => {
@@ -15,8 +19,6 @@ const user_index_get = (req, res) => {
       console.log(err);
     });
 };
-
-
 
 const user_edit_get = (req, res) => {
   //result===> object
@@ -86,6 +88,8 @@ const user_post = (req, res) => {
     });
 };
 
+
+
 module.exports = {
   user_index_get,
   user_edit_get,
@@ -95,4 +99,6 @@ module.exports = {
   user_put,
   user_add_get,
   user_post,
+
+
 };
