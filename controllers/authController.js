@@ -3,6 +3,18 @@ const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator");
 var jwt = require("jsonwebtoken");
 
+const cloudinary = require("cloudinary").v2;
+require('dotenv').config()
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+});
+
+
+
+
+
 const get_welcome = (req, res) => {
   res.render("welcome");
 };
@@ -74,6 +86,22 @@ const post_login = async (req, res) => {
   }
 };
 
+const post_profileImage=   (req, res, next)=> {
+  cloudinary.uploader.upload(req.file.path,{folder:"f-williams/profile-image"}, async (error, result) => {
+    if (result) {
+      console.log(result.secure_url);
+      var decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET_KEY);
+
+      const avatar = await AuthUser.updateOne(
+        { _id: decoded.id },
+        { profileImage: result.secure_url }
+      );
+      res.redirect("/home");
+    }
+  });
+}
+
+
 
 module.exports = {
   get_signout,
@@ -82,4 +110,5 @@ module.exports = {
   post_signup,
   post_login,
   get_welcome,
+  post_profileImage
 };

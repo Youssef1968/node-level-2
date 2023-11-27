@@ -28,9 +28,9 @@ const checkIfUser = (req, res, next) => {
         res.locals.user = null;
         next();
       } else {
-        const loginUse = await AuthUser.findById(decoded.id);
+        const loginUser = await AuthUser.findById(decoded.id);
 
-        res.locals.user = loginUse;
+        res.locals.user = loginUser;
         next();
       }
     });

@@ -10,7 +10,22 @@ const { checkIfUser } = require("../middleware/middleware");
 const authController = require("../controllers/authController");
 
 router.get("*", checkIfUser);
+router.post("*", checkIfUser);
 
+const multer = require("multer");
+// const upload = multer({ dest: 'uploads/' })
+const upload = multer({ storage: multer.diskStorage({}) });
+
+
+// Level 3
+router.post(
+  "/update-profile",
+  upload.single("avatar"),
+
+  authController.post_profileImage
+);
+
+// Level 2
 router.get("/signout", authController.get_signout);
 
 router.get("/login", authController.get_login);

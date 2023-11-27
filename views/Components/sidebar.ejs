@@ -21,7 +21,7 @@
     </li>
 
     <li>
-      <a href="../user/add.html" class="nav-link text-white <%= currentPage==="add"?"active mira_231112_144902_940" :null%>" >
+      <a href="../user/add.html" class="nav-link text-white <%= currentPage==="add"?"active mira_231112_144902_940" :null%>">
         <svg class="bi pe-none me-2" width="16" height="16">
           <use xlink:href="#people-circle" />
         </svg>
@@ -31,10 +31,10 @@
   </ul>
   <hr />
   <div class="dropdown">
-    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle mira_231112_144526_477"
-      data-bs-toggle="dropdown" aria-expanded="false">
+    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle mira_231112_144526_477" data-bs-toggle="dropdown" aria-expanded="false">
 
-      <img src="../img/me.JPG" alt="" width="32" height="32" class="rounded-circle me-2 mira_231112_145107_748" />
+      <!-- <img src="../img/avatar.png" alt="" width="32" height="32" class="rounded-circle me-2 mira_231112_145107_748" /> -->
+      <img src="<%= user.profileImage?user.profileImage:"../img/avatar.png" %>" alt="" width="32" height="32" class="rounded-circle me-2 mira_231112_145107_748" />
 
 
 
@@ -43,7 +43,12 @@
     <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
       <li><a class="dropdown-item mira_231112_144612_589" href="#">New project...</a></li>
       <li><a class="dropdown-item mira_231112_144620_317" href="#">Settings</a></li>
-      <li><a class="dropdown-item mira_231112_144628_366" href="#">Profile</a></li>
+
+      <li>
+        <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="dropdown-item mira_231112_144628_366" href="#">Profile Image
+        </button>
+      </li>
+
       <li>
         <hr class="dropdown-divider" />
       </li>
@@ -51,6 +56,46 @@
     </ul>
   </div>
 </div>
+
+
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button> -->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+
+    <form method="post" action="/update-profile" enctype="multipart/form-data" class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Change profile image</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="px-4   modal-body d-flex justify-content-between align-items-center">
+        <label class="btn btn-secondary" for="inputFile">
+          <i class="bi bi-plus"></i>
+
+          Upload img</label>
+        <input name="avatar" style="display: none;" id="inputFile" type="file">
+
+        <img id="profileImage" style="border-radius: 50%;" src="<%= user.profileImage?user.profileImage:"../img/avatar.png" %>" alt="" width="150" height="150">
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger mira_231126_111215_916" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary mira_231126_111159_524">Save changes</button>
+      </div>
+    </form>
+  </div>
+</div>
 <div class="b-example-divider b-example-vr"></div>
 
 <%- include('../../getid.ejs') %>
+
+<script>
+  inputFile.addEventListener("change", (eo) => {
+    profileImage.src = URL.createObjectURL(eo.target.files[0])
+  })
+</script>

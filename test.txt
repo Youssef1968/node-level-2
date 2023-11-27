@@ -48,5 +48,55 @@ $2b$10$M46BTvkKC4OlwXgVYhjBs.
           }
         }
 ================================================================
+2222222222222222222222222222222222222222222222222222222222222222
+const user_search_post = (req, res) => {
+  var decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET_KEY);
 
+  const searchText = req.body.searchText.trim();
+  // AuthUser.find({
+  //   $or: [
+  //     { firstName: searchText },
+  //     { lastName: searchText },
+  //     { email: searchText },
+  //     { phoneNumber: searchText },
+  //     { age: searchText },
+  //     { country: searchText },
+  //     { gender: searchText },
+  //   ],
+  // })
+  AuthUser.findOne({ _id: decoded.id })
+
+    .then((result) => {
+      console.log(
+        "##########################Person who signed in##########################"
+      );
+      console.log(result.customerInfo);
+
+      const lolo = result.customerInfo.filter((item) => {
+        const myArr = [
+          "firstName",
+          "lastName",
+          "email",
+          "phoneNumber",
+          "age",
+          "country",
+          "gender",
+        ];
+console.log("******************MY ARRAY************************")
+        for (let i = 0; i < myArr.length; i++) {
+          console.log(myArr[i])
+          console.log(searchText)
+
+        return item[myArr[i]].includes(searchText);
+        }
+
+      });
+console.log("******************lolo************************")
+console.log(lolo)
+      res.render("user/search", { arr: lolo, moment: moment });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
