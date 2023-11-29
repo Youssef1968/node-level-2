@@ -4,13 +4,6 @@ const AuthUser = require("../models/authUser");
 var moment = require("moment");
 var jwt = require("jsonwebtoken");
 
-//1- get nested object inside an array
-//2- add nested object inside an array
-//3- update nested object inside an array
-//4- delete nested object inside an array
-
-//   /home
-// done
 const user_index_get = (req, res) => {
   //result array of objects
   var decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET_KEY);
@@ -163,6 +156,7 @@ module.exports = {
   user_search_post,
   user_delete,
   user_put,
+
   user_add_get,
   user_post,
 };

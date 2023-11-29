@@ -4,10 +4,10 @@ const router = express.Router();
 
 const userController = require("../controllers/userController");
 
-var {requireAuth} = require("../middleware/middleware");
+var { requireAuth } = require("../middleware/middleware");
 
 router.get("", requireAuth, userController.user_add_get);
 
-router.post("",requireAuth, userController.user_post);
+router.post("", requireAuth, userController.user_post);
 
 module.exports = router;

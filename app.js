@@ -16,7 +16,7 @@ app.use(express.json());
 // cookie-parser
 var cookieParser = require("cookie-parser");
 app.use(cookieParser());
-require('dotenv').config()
+require("dotenv").config();
 //auto refresh
 
 const path = require("path");

@@ -16,7 +16,6 @@ const multer = require("multer");
 // const upload = multer({ dest: 'uploads/' })
 const upload = multer({ storage: multer.diskStorage({}) });
 
-
 // Level 3
 router.post(
   "/update-profile",

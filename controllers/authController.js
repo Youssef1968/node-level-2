@@ -2,39 +2,27 @@ const AuthUser = require("../models/authUser");
 const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator");
 var jwt = require("jsonwebtoken");
-
 const cloudinary = require("cloudinary").v2;
-require('dotenv').config()
+require("dotenv").config();
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.API_KEY,
   api_secret: process.env.API_SECRET,
 });
 
-
-
-
-
 const get_welcome = (req, res) => {
   res.render("welcome");
 };
-
-
-
-
 const get_signout = (req, res) => {
   res.cookie("jwt", "", { maxAge: 1 });
   res.redirect("/");
 };
-
 const get_login = (req, res) => {
   res.render("auth/login.ejs");
 };
-
 const get_signup = (req, res) => {
   res.render("auth/signup");
 };
-
 const post_signup = async (req, res) => {
   try {
     //check validation (email & password)
@@ -45,13 +33,11 @@ const post_signup = async (req, res) => {
         arrValidationError: objError.errors,
       });
     }
-
     //check if the email already exist
     const isCurrentEmail = await AuthUser.findOne({ email: req.body.email });
     if (isCurrentEmail) {
       return res.json({ existEmail: "Email already exist" });
     }
-
     //create new user and login
     const newUser = await AuthUser.create(req.body);
     var token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY);
@@ -62,7 +48,6 @@ const post_signup = async (req, res) => {
     console.log(error);
   }
 };
-
 const post_login = async (req, res) => {
   const loginUser = await AuthUser.findOne({ email: req.body.email });
   try {
@@ -86,23 +71,24 @@ const post_login = async (req, res) => {
   }
 };
 
-const post_profileImage=   (req, res, next)=> {
-  cloudinary.uploader.upload(req.file.path,{folder:"f-williams/profile-image"}, async (error, result) => {
-    if (result) {
-      console.log(result.secure_url);
-      var decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET_KEY);
+const post_profileImage = (req, res, next) => {
+  cloudinary.uploader.upload(
+    req.file.path,
+    { folder: "f-williams/profile-image" },
+    async (error, result) => {
+      if (result) {
+        console.log(result.secure_url);
+        var decoded = jwt.verify(req.cookies.jwt, process.env.JWT_SECRET_KEY);
 
-      const avatar = await AuthUser.updateOne(
-        { _id: decoded.id },
-        { profileImage: result.secure_url }
-      );
-      res.redirect("/home");
+        const avatar = await AuthUser.updateOne(
+          { _id: decoded.id },
+          { profileImage: result.secure_url }
+        );
+        res.redirect("/home");
+      }
     }
-  });
-}
-
-
-
+  );
+};
 module.exports = {
   get_signout,
   get_login,
@@ -110,5 +96,5 @@ module.exports = {
   post_signup,
   post_login,
   get_welcome,
-  post_profileImage
+  post_profileImage,
 };
